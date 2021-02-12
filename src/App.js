@@ -21,7 +21,8 @@ class App extends Component {
 
     // Setear el estado para listarlos en React
     peticionGet = () => {
-        firebase.child("canales").on("value", (canal) => {
+       const todoRef = firebase.database().ref('canales');
+       todoRef.on("value", (canal) => {
             if (canal.val() !==null) {
                 this.setState({ ...this.state.data, data: canal.val() });
             } else {
@@ -37,7 +38,8 @@ class App extends Component {
 
     // Paso 3: Ingresar el Item Nuevo
     peticionPost=()=>{
-        firebase.child("canales").push(this.state.form,
+      const todoRef = firebase.database().ref('canales');
+       todoRef.push(this.state.form,
             error=>{
                 if(error)console.log(error)
             });
@@ -52,7 +54,8 @@ class App extends Component {
       }
 
       peticionPut=()=>{
-        firebase.child(`canales/${this.state.id}`).set(
+        const todoRef = firebase.database().ref(`canales/${this.state.id}`);
+       todoRef.set(
           this.state.form,
           error=>{
             if(error)console.log(error)
@@ -63,7 +66,8 @@ class App extends Component {
       peticionDelete=()=>{
         if(window.confirm(`Estás seguro que deseas eliminar el canal ${this.state.form && this.state.form.canal}?`))
         {
-        firebase.child(`canales/${this.state.id}`).remove(
+          const todoRef = firebase.database().ref(`canales/${this.state.id}`);
+          todoRef.child(`canales/${this.state.id}`).remove(
           error=>{
             if(error)console.log(error)
           });
